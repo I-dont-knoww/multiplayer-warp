@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Warp</title>
+        
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                overflow: hidden;
+            }
+            
+            canvas {
+                top: 0;
+                left: 0;
+                image-rendering: pixelated;
+                image-rendering: crisp-edges;
+            }
+            
+            span {
+                background-color: green;
+                border-color: darkgreen;
+                color: black;
+            }
+        </style>
+    </head>
+    
+    <body id="body">
+        <div id="mainMenu">
+            <span id="newGameButton">New Game</span>
+            <span id="joinGameButton">Join Game</span>
+        </div>
+        
+        <div id="gameScreen" style="display: none">
+            <canvas id="canvas"></canvas>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
+            <script src="constants.js"></script>
+            <script src="drawer.js"></script>
+            <script src="itemRender.js"></script>
+            <script src="index.js"></script>
+        </div>
+    </body>
+</html>
