@@ -116,8 +116,10 @@ io.on('connection', client => {
     }
     
     function handleLeaveGame() {
-        state[clientRooms[client.id]].players.splice(clientNumber, 1);
-        io.sockets.in(clientRooms[client.id]).emit('decreaseNum', clientNumber);
+        try {
+            state[clientRooms[client.id]].players.splice(clientNumber, 1);
+            io.sockets.in(clientRooms[client.id]).emit('decreaseNum', clientNumber);
+        } catch (e) {setTimeout(_ => handleLeaveGame(), 100)};
     }
 });
 
