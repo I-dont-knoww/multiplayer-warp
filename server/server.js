@@ -26,6 +26,7 @@ io.on('connection', client => {
     client.on('mousemove', handleMouseMove);
     client.on('newGame', handleNewGame);
     client.on('joinGame', handleJoinGame);
+    client.on('decreaseNum', handleDecreaseNum);
     client.on('disconnect', handleLeaveGame);
     
     function handleNewGame() {
@@ -66,42 +67,57 @@ io.on('connection', client => {
     }
     
     function handleKeyDown(e) {
-        e = JSON.parse(e);
-        state[clientRooms[client.id]].players[clientNumber].keys[e.key.toLowerCase()] = true;
+        try {
+            e = JSON.parse(e);
+            state[clientRooms[client.id]].players[clientNumber].keys[e.key.toLowerCase()] = true;
+        } catch (e) {}
     }
     
     function handleKeyUp(e) {
-        e = JSON.parse(e);
-        delete state[clientRooms[client.id]].players[clientNumber].keys[e.key.toLowerCase()];
+        try {
+            e = JSON.parse(e);
+            delete state[clientRooms[client.id]].players[clientNumber].keys[e.key.toLowerCase()];
+        } catch (e) {}
     }
     
     function handleMouseDown(e) {
-        e = JSON.parse(e);
-        const player = state[clientRooms[client.id]].players[clientNumber];
-        player.mouse.x = e.x;
-        player.mouse.y = e.y;
-        if (e.button == 0) player.mouse.click = true;
-        else if (e.button == 2) player.mouse.rclick = true;
+        try {
+            e = JSON.parse(e);
+            const player = state[clientRooms[client.id]].players[clientNumber];
+            player.mouse.x = e.x;
+            player.mouse.y = e.y;
+            if (e.button == 0) player.mouse.click = true;
+            else if (e.button == 2) player.mouse.rclick = true;
+        } catch (e) {}
     }
     
     function handleMouseUp(e) {
-        e = JSON.parse(e);
-        const player = state[clientRooms[client.id]].players[clientNumber];
-        player.mouse.x = e.x;
-        player.mouse.y = e.y;
-        if (e.button == 0) player.mouse.click = false;
-        else if (e.button == 2) player.mouse.rclick = false;
+        try {
+            e = JSON.parse(e);
+            const player = state[clientRooms[client.id]].players[clientNumber];
+            player.mouse.x = e.x;
+            player.mouse.y = e.y;
+            if (e.button == 0) player.mouse.click = false;
+            else if (e.button == 2) player.mouse.rclick = false;
+        } catch (e) {}
     }
     
     function handleMouseMove(e) {
-        e = JSON.parse(e);
-        const player = state[clientRooms[client.id]].players[clientNumber];
-        player.mouse.x = e.x;
-        player.mouse.y = e.y;
+        try {
+            e = JSON.parse(e);
+            const player = state[clientRooms[client.id]].players[clientNumber];
+            player.mouse.x = e.x;
+            player.mouse.y = e.y;
+        } catch (e) {}
+    }
+    
+    function handleDecreaseNum(num) {
+        if (clientNumber > num) clientNumber--;
     }
     
     function handleLeaveGame() {
-        
+        state[clientRooms[client.id]].players.splice(clientNumber, 1);
+        io.sockets.in(clientRooms[client.id]).emit('decreaseNum', clientNumber);
     }
 });
 

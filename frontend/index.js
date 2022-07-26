@@ -10,6 +10,7 @@ socket.on('init', handleInit);
 socket.on('gameState', handleGameState);
 socket.on('gameState', handleGameState);
 socket.on('gameCode', handleGameCode);
+socket.on('decreaseNum', handleDecreaseNum);
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -95,6 +96,11 @@ function handleGameState(gameState) {
 
 function handleGameCode(gameCode) {
     prompt(`Your game code is`, gameCode);
+}
+
+function handleDecreaseNum(num) {
+    if (playerNumber > num) playerNumber--;
+    socket.emit('decreaseNum', num);
 }
 
 function renderHUD(player) {    
